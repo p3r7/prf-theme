@@ -1,3 +1,4 @@
+;;; prf-theme.el --- Util to cycle themes -*- mode: emacs-lisp -*-
 
 ;; Copyright (C) 2015 Worney Renth <contact.perf@gmail.com>
 ;;
