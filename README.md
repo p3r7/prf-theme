@@ -5,6 +5,7 @@ A simple theme switcher for Emacs.
 Was made originally to work with now legacy `color-theme`, and got updated to support `deftheme` and legacy  (Emacs pre-24).
 
 It's certainly not the best implementation there is.
+For (potentially) better alternatives, have a look at the [Similar Projects section](#similar-projects) at the end of this document.
 
 
 ## Installation
