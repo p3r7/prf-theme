@@ -1,4 +1,4 @@
-;;; prf-theme.el --- Util to cycle themes -*- mode: emacs-lisp -*-
+;;; prf-theme.el --- Util to cycle themes
 
 ;; Copyright (C) 2010-2020 Jordan Besly
 ;;
