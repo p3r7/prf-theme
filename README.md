@@ -75,7 +75,7 @@ For `deftheme`, we have first to `disable-theme` the previous one to then `load-
 Legacy `color-theme` represent themes as functions. To load one we'd need to just `funcall` it. There is no need to unload the previous theme.
 
 
-### `deftheme` / `color-theme` abstraction
+#### `deftheme` / `color-theme` abstraction
 
 Abstraction of the theme implementation is achieved by defining function aliases.
 
