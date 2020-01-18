@@ -1,12 +1,12 @@
 ;;; prf-theme.el --- Util to cycle themes -*- mode: emacs-lisp -*-
 
-;; Copyright (C) 2015 Worney Renth <contact.perf@gmail.com>
+;; Copyright (C) 2010-2020 Jordan Besly
 ;;
-;; Version: 20130407.1256
-;; X-Original-Version: 2.5
+;; Version: 0.1.0
 ;; Created: July 27, 2010
-;; Keywords: convenience, files, matching
-;; Compatibility: GNU Emacs 22, 23, and 24
+;; Keywords: theme
+;; URL: https://github.com/p3r7/prf-theme
+;; Package-Requires: ((dash "2.16.0"))
 ;;
 ;; Permission is hereby granted to use and distribute this code, with or
 ;; without modifications, provided that this copyright notice is copied with
@@ -18,33 +18,34 @@
 ;;; Commentary:
 ;;  -----------
 ;;
-;; To install, copy this file somewhere in your load-path and add this line to
-;; your .emacs:
-;;
-;;    (require 'prf-theme)
+;; For detailed instructions, please look at the README.md
 
 
 ;;; Code:
 
-;; NOTE: somebody did the same thing, for deftheme only, less clean as disabling whole list everytime: https://github.com/myTerminal/theme-looper/blob/master/theme-looper.el
 
-;; TODO: test prf/theme/theme-list bound
-;; TODO: prf/theme/theme-list change detection (via a clone) -> to prevent having to cycle whole list before reloading
-
-;; ------------------------------------------------------------------------
+
+;; DEPS
 
 (require 'dash)
 
-;; ------------------------------------------------------------------------
+
+
+;; CONFIG
+
+(defvar prf/theme/theme-list nil)
+
+
+
 ;; INTERNAL VARS
+
+(defvar prf/theme/theme-list-change-detection nil)
 
 (defvar prf/theme/current-theme nil)
 (defvar prf/theme/current-theme-list nil) ;; more like a cursor
-(defvar prf/theme/theme-list nil)
-(defvar prf/theme/theme-list-change-detection nil)
 
 
-;; ------------------------------------------------------------------------
+
 ;; FUNCTIONS: DEFTHEME
 
 (defun prf/deftheme/apply-theme (theme)
@@ -56,7 +57,7 @@
   (disable-theme theme))
 
 
-;; ------------------------------------------------------------------------
+
 ;; FUNCTIONS: COLOR-THEME (legacy)
 
 (defun prf/color-theme/apply-theme (theme)
@@ -68,10 +69,10 @@
   nil)
 
 
-;; ------------------------------------------------------------------------
-;; DICHOTOMY
+
+;; THEME IMPLEM DICHOTOMY
 
-(if (>= emacs-major-version 24) ;; deftheme
+(if (>= emacs-major-version 24)
     (progn
       (defalias 'prf/theme/apply-theme #'prf/deftheme/apply-theme)
       (defalias 'prf/theme/revert-theme #'prf/deftheme/revert-theme))
@@ -80,12 +81,12 @@
   (require 'color-theme)
   (with-eval-after-load "color-theme"
     (color-theme-initialize))
-  (setq color-theme-is-global   t
+  (setq color-theme-is-global     t
         color-theme-is-cumulative t))
 
 
-;; ------------------------------------------------------------------------
-;; FUNCTIONS: theme list
+
+;; FUNCTIONS: THEME LIST
 
 (defun prf/theme-list/changed-p ()
   (not (eq prf/theme/theme-list-change-detection prf/theme/theme-list)))
@@ -93,20 +94,21 @@
 (defun prf/theme-list/get-current ()
   (car prf/theme/current-theme-list))
 
-
 (defun prf/theme-list/move-to-next ()
   (setq prf/theme/current-theme-list (cdr prf/theme/current-theme-list)))
-
 
 (defun prf/theme-list/end-p ()
   (null prf/theme/current-theme-list))
 
 
-;; ------------------------------------------------------------------------
-;; FUNCTIONS: INTERACTIVE
+
+;; COMMANDS
 
 (defun prf/theme/set-default-theme (&optional apply)
   (interactive)
+
+  (unless prf/theme/theme-list
+    (error "Empty list `prf/theme/theme-list'"))
 
   (if (null prf/theme/theme-list-change-detection)
       (setq prf/theme/theme-list-change-detection prf/theme/theme-list) )
@@ -120,6 +122,10 @@
 
 (defun prf/theme/cycle-theme ()
   (interactive)
+
+  (unless prf/theme/theme-list
+    (error "Empty list `prf/theme/theme-list'"))
+
   (prf/theme/revert-theme prf/theme/current-theme)
 
   (if (prf/theme-list/changed-p)
@@ -151,8 +157,8 @@
   (prf/theme/set-default-theme t))
 
 
-;; ------------------------------------------------------------------------
-;; HELM INTEGRATION
+
+;; HELM COMMAND
 
 (with-eval-after-load "helm"
 
@@ -168,7 +174,8 @@
       (helm :sources '(prf-theme--helm-source)
             :buffer "*helm Choose Theme*"))))
 
-;; ------------------------------------------------------------------------
+
+
 
 (provide 'prf-theme)
 
