@@ -142,7 +142,13 @@
     (when (prf/theme-list/end-p)
       (prf/theme/set-default-theme)))
 
-  (prf/theme/apply-theme (prf/theme-list/get-current)))
+  (prf/theme/apply-theme (prf/theme-list/get-current))
+
+  ;; NB: necessary for stuff such as polymode buffers
+  (if (fboundp 'font-lock-flush)
+      (font-lock-flush)
+    (when font-lock-mode
+      (with-no-warnings (font-lock-fontify-buffer)))))
 
 
 (defun prf/theme/set-theme-from-list (theme)
