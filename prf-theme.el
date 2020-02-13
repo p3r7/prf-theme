@@ -29,6 +29,12 @@
 
 (require 'dash)
 
+;; tame compiler warnings
+(unless (featurep 'color-theme)
+  (defvar color-theme-is-global nil)
+  (defvar color-theme-is-cumulative nil)
+  (defun color-theme-initialize ()))
+
 
 
 ;; CONFIG
