@@ -98,3 +98,4 @@ Abstraction of the theme implementation is achieved by defining function aliases
 
  - [https://github.com/myTerminal/theme-looper](myTerminal/theme-looper)
  - Commands `doremi-color-themes+` and `doremi-custom-themes+` from [DoReMi](https://www.emacswiki.org/emacs/DoReMi)
+ - Spacemancs' `spacemacs/cycle-spacemacs-theme` in its [core theme support](https://github.com/syl20bnr/spacemacs/blob/master/core/core-themes-support.el)
