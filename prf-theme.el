@@ -174,6 +174,9 @@
 
 (with-eval-after-load "helm"
 
+  (eval-when-compile
+    (require 'helm-source nil t))
+
   (setq prf-theme--helm-source
         (helm-build-sync-source "Change theme to"
           :candidates prf/theme/theme-list
