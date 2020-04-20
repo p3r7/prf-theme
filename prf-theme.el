@@ -144,11 +144,7 @@
 
   (prf/theme/apply-theme (prf/theme-list/get-current))
 
-  ;; NB: necessary for stuff such as polymode buffers
-  (if (fboundp 'font-lock-flush)
-      (font-lock-flush)
-    (when font-lock-mode
-      (with-no-warnings (font-lock-fontify-buffer)))))
+  (prf/theme/font-lock-refresh-special-buffers))
 
 
 (defun prf/theme/set-theme-from-list (theme)
@@ -161,13 +157,38 @@
   (prf/theme/revert-theme prf/theme/current-theme)
   (setq prf/theme/current-theme-list (cons theme
                                            (car (cdr (-split-on theme prf/theme/theme-list)))))
-  (prf/theme/apply-theme (prf/theme-list/get-current)))
+  (prf/theme/apply-theme (prf/theme-list/get-current))
+
+  (prf/theme/font-lock-refresh-special-buffers))
 
 
 (defun prf/theme/initialize ()
   (interactive)
   (prf/theme/set-default-theme t))
 
+
+
+;; PRIVATE HELPERS: FONT LOCK
+
+(defun prf/theme/font-lock-refresh ()
+  ;; NB: necessary for stuff such as polymode buffers
+  (if (fboundp 'font-lock-flush)
+      (font-lock-flush)
+    (when font-lock-mode
+      (with-no-warnings (font-lock-fontify-buffer)))))
+
+
+(defun prf/theme/font-lock-refresh-special-buffers ()
+  ;; polymode
+  (save-window-excursion
+    (--map
+     (when (buffer-live-p it)
+       (switch-to-buffer it)
+       (when (and (boundp 'polymode-mode)
+                  polymode-mode
+                  (string-match-p "^.*\\[.*\\]$" (buffer-name)))
+         (prf/theme/font-lock-refresh)))
+     (buffer-list))))
 
 
 ;; HELM COMMAND
