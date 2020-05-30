@@ -193,7 +193,7 @@
 
 ;; HELM COMMAND
 
-(with-eval-after-load "helm"
+(with-eval-after-load "helm-source"
 
   (eval-when-compile
     (require 'helm-source nil t))
