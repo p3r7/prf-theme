@@ -193,22 +193,24 @@
 
 ;; HELM COMMAND
 
-(with-eval-after-load "helm-source"
+(with-eval-after-load "helm"
 
   (eval-when-compile
     (require 'helm-source nil t))
 
-  (setq prf-theme--helm-source
-        (helm-build-sync-source "Change theme to"
-          :candidates prf/theme/theme-list
-          :fuzzy-match t
-          :action #'prf/theme/set-theme-from-list))
+  (when (featurep 'helm-source)
 
-  (defun helm-prf-theme-choose ()
-    (interactive)
-    (let ((helm-candidate-number-limit 10000))
-      (helm :sources '(prf-theme--helm-source)
-            :buffer "*helm Choose Theme*"))))
+    (setq prf-theme--helm-source
+          (helm-build-sync-source "Change theme to"
+            :candidates prf/theme/theme-list
+            :fuzzy-match t
+            :action #'prf/theme/set-theme-from-list))
+
+    (defun helm-prf-theme-choose ()
+      (interactive)
+      (let ((helm-candidate-number-limit 10000))
+        (helm :sources '(prf-theme--helm-source)
+              :buffer "*helm Choose Theme*")))))
 
 
 
