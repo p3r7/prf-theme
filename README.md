@@ -43,7 +43,7 @@ If you load [helm](https://github.com/emacs-helm/helm), addtionnal command `helm
   :defer t)
 
 (use-package prf-theme
-  :quelpa (prf-theme :fetcher github :repo "p3r7/prf-theme"))
+  :quelpa (prf-theme :fetcher github :repo "p3r7/prf-theme")
   :demand
 
   :bind ([f12] . prf/theme/cycle-theme)
@@ -53,6 +53,12 @@ If you load [helm](https://github.com/emacs-helm/helm), addtionnal command `helm
 
   :config
   (prf/theme/initialize))
+
+(use-package helm-prf-theme
+  :after (prf-theme helm)
+  :ensure nil
+
+  :bind (("C-<f12>" . helm-prf-theme-choose)))
 ```
 
 ## Implementation details
