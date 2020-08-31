@@ -123,7 +123,7 @@
       (setq prf/theme/theme-list-change-detection prf/theme/theme-list) )
 
   (if (not (null prf/theme/current-theme-list))
-      (prf/theme/revert-theme prf/theme/current-theme) )
+      (prf/theme/revert-theme prf/theme/current-theme))
   (setq prf/theme/current-theme-list prf/theme/theme-list)
   (when apply
     (prf/theme/apply-theme (car prf/theme/current-theme-list))))
