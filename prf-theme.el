@@ -56,11 +56,13 @@
 
 (defun prf/deftheme/apply-theme (theme)
   (setq prf/theme/current-theme theme)
-  (load-theme theme t))
+  (unless (eq theme 'default)
+    (load-theme theme t)))
 
 
 (defun prf/deftheme/revert-theme (theme)
-  (disable-theme theme))
+  (unless (eq theme 'default)
+    (disable-theme theme)))
 
 
 
@@ -68,7 +70,8 @@
 
 (defun prf/color-theme/apply-theme (theme)
   (setq prf/theme/current-theme theme)
-  (funcall theme))
+  (unless (eq theme 'default)
+    (funcall theme)))
 
 
 (defun prf/color-theme/revert-theme (theme)
