@@ -37,7 +37,7 @@
 
 (setq prf-theme--helm-source
       (helm-build-sync-source "Change theme to"
-        :candidates prf/theme/theme-list
+        :candidates (lambda () prf/theme/theme-list)
         :fuzzy-match t
         :action #'prf/theme/set-theme-from-list))
 
