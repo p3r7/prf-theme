@@ -41,6 +41,8 @@
 
 (defvar prf/theme/theme-list nil)
 
+(defvar prf/theme/after-update-hook nil
+  "Hook called after updating current theme.")
 
 
 ;; INTERNAL VARS
@@ -147,7 +149,9 @@
 
   (prf/theme/apply-theme (prf/theme-list/get-current))
 
-  (prf/theme/font-lock-refresh-special-buffers))
+  (prf/theme/font-lock-refresh-special-buffers)
+
+  (run-hooks 'prf/theme/after-update-hook))
 
 
 (defun prf/theme/set-theme-from-list (theme)
@@ -162,7 +166,9 @@
                                            (car (cdr (-split-on theme prf/theme/theme-list)))))
   (prf/theme/apply-theme (prf/theme-list/get-current))
 
-  (prf/theme/font-lock-refresh-special-buffers))
+  (prf/theme/font-lock-refresh-special-buffers)
+
+  (run-hooks 'prf/theme/after-update-hook))
 
 
 (defun prf/theme/initialize ()
